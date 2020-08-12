@@ -1,6 +1,6 @@
 # Goterator
 
-[![Test and Build](https://github.com/yaa110/goterator/workflows/Test%20and%20Build/badge.svg)](https://github.com/yaa110/goterator/actions?query=workflow%3A"Test+and+Build") [![Documentation](https://img.shields.io/badge/Documentation-goterator-blue)](https://pkg.go.dev/github.com/yaa110/goterator?tab=doc) [![Go Report](https://goreportcard.com/badge/github.com/yaa110/goterator)](https://goreportcard.com/report/github.com/yaa110/goterator)
+[![Test and Build](https://github.com/yaa110/goterator/workflows/Test%20and%20Build/badge.svg)](https://github.com/yaa110/goterator/actions?query=workflow%3A"Test+and+Build") [![Documentation](https://img.shields.io/badge/Documentation-goterator-blue)](https://pkg.go.dev/github.com/yaa110/goterator?tab=doc) [![Go Report](https://goreportcard.com/badge/github.com/yaa110/goterator)](https://goreportcard.com/report/github.com/yaa110/goterator) [![Coverage](https://gocover.io/_badge/github.com/yaa110/goterator)](https://gocover.io/github.com/yaa110/goterator)
 
 Iterator implementation for Golang to provide map and reduce functionalities.
 
