@@ -7,7 +7,10 @@ Iterator implementation for Golang to provide map and reduce functionalities.
 ## Package
 
 ```go
-import "github.com/yaa110/goterator"
+import (
+    "github.com/yaa110/goterator"
+    "github.com/yaa110/goterator/generator"
+)
 ```
 
 ## Getting Started
@@ -17,7 +20,7 @@ import "github.com/yaa110/goterator"
 ```go
 words := []interface{}{"an", "example", "of", "goterator"}
 
-generator := goterator.NewSliceGenerator(words)
+gen := generator.NewSlice(words)
 ```
 
 - Create a generator from channels
@@ -30,7 +33,7 @@ chn <- "of"
 chn <- "goterator"
 close(chn)
 
-generator := goterator.NewChannelGenerator(chn)
+gen := generator.NewChannel(chn)
 ```
 
 - Create custom generators
@@ -39,27 +42,33 @@ generator := goterator.NewChannelGenerator(chn)
 type TestGenerator struct {
     words []string
     i     int
+    value string
 }
 
-func (g *TestGenerator) Next() (interface{}, error) {
+func (g *TestGenerator) Next() bool {
     if g.i == len(g.words) {
-        return nil, goterator.End()
+        return false
     }
-    word := g.words[g.i]
+    g.value := g.words[g.i]
     g.i++
-    return word, nil
+    return true
 }
 
-generator := &TestGenerator{
+func (g *TestGenerator) Value() interface{} {
+    return g.value
+}
+
+gen := &TestGenerator{
     words: []string{"an", "example", "of", "goterator"},
     i: 0,
+    value: "",
 }
 ```
 
 - Iterate over generators
 
 ```go
-lengths := goterator.New(generator).Map(func(word interface{}) interface{} {
+lengths := goterator.New(gen).Map(func(word interface{}) interface{} {
     return len(word.(string))
 }).Collect()
 

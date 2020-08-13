@@ -6,12 +6,13 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/yaa110/goterator"
+	"github.com/yaa110/goterator/generator"
 )
 
 func TestMap(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 5}
-	generator := goterator.NewSliceGenerator(elements)
+	generator := generator.NewSlice(elements)
 
 	doubled := goterator.New(generator).Map(func(e interface{}) interface{} {
 		return e.(int) * 2
@@ -23,7 +24,7 @@ func TestMap(t *testing.T) {
 func TestFilter(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 5}
-	generator := goterator.NewSliceGenerator(elements)
+	generator := generator.NewSlice(elements)
 
 	odds := goterator.New(generator).Filter(func(e interface{}) bool {
 		return e.(int)%2 != 0
@@ -35,7 +36,7 @@ func TestFilter(t *testing.T) {
 func TestTake(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 5}
-	generator := goterator.NewSliceGenerator(elements)
+	generator := generator.NewSlice(elements)
 
 	odds := goterator.New(generator).Take(3).Collect()
 
@@ -45,7 +46,7 @@ func TestTake(t *testing.T) {
 func TestSkip(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 5}
-	generator := goterator.NewSliceGenerator(elements)
+	generator := generator.NewSlice(elements)
 
 	odds := goterator.New(generator).Skip(3).Collect()
 
@@ -55,7 +56,7 @@ func TestSkip(t *testing.T) {
 func TestSkipWhile(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 2, 5}
-	generator := goterator.NewSliceGenerator(elements)
+	generator := generator.NewSlice(elements)
 
 	values := goterator.New(generator).SkipWhile(func(e interface{}) bool {
 		return e.(int) < 3
@@ -67,7 +68,7 @@ func TestSkipWhile(t *testing.T) {
 func TestTakeWhile(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 2, 5}
-	generator := goterator.NewSliceGenerator(elements)
+	generator := generator.NewSlice(elements)
 
 	values := goterator.New(generator).TakeWhile(func(e interface{}) bool {
 		return e.(int) < 3
@@ -79,7 +80,7 @@ func TestTakeWhile(t *testing.T) {
 func TestChain(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{"test1", "word", "TeSt2", "WorD", "TEST3", "WORD", "Test4", "Word"}
-	generator := goterator.NewSliceGenerator(elements)
+	generator := generator.NewSlice(elements)
 
 	values := goterator.New(generator).
 		Map(func(e interface{}) interface{} {

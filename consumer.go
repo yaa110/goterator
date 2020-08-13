@@ -4,10 +4,11 @@ func (iter *Iterator) iter(f PredicateFunc) {
 	skipWhileIsOver := false
 ElementLoop:
 	for {
-		element, err := iter.generator.Next()
-		if err != nil {
+		ok := iter.generator.Next()
+		if !ok {
 			return
 		}
+		element := iter.generator.Value()
 		for _, m := range iter.mappers {
 			switch mapper := m.(type) {
 			case mapFunc:

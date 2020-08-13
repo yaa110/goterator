@@ -5,13 +5,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/yaa110/goterator"
+	"github.com/yaa110/goterator/generator"
 )
 
 func TestForEach(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 5}
-	generator := goterator.NewSliceGenerator(elements)
-	iterator := goterator.New(generator)
+	gen := generator.NewSlice(elements)
+	iterator := goterator.New(gen)
 
 	var values []interface{}
 	iterator.ForEach(func(e interface{}) {
@@ -23,8 +24,8 @@ func TestForEach(t *testing.T) {
 func TestCollect(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 5}
-	generator := goterator.NewSliceGenerator(elements)
-	iterator := goterator.New(generator)
+	gen := generator.NewSlice(elements)
+	iterator := goterator.New(gen)
 
 	values := iterator.Collect()
 	assert.Equal(elements, values)
@@ -33,8 +34,8 @@ func TestCollect(t *testing.T) {
 func TestReduce(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 5}
-	generator := goterator.NewSliceGenerator(elements)
-	iterator := goterator.New(generator)
+	gen := generator.NewSlice(elements)
+	iterator := goterator.New(gen)
 
 	sum := iterator.Reduce(0, func(state, e interface{}) interface{} {
 		return state.(int) + e.(int)
@@ -45,8 +46,8 @@ func TestReduce(t *testing.T) {
 func TestFind(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 5}
-	generator := goterator.NewSliceGenerator(elements)
-	iterator := goterator.New(generator)
+	gen := generator.NewSlice(elements)
+	iterator := goterator.New(gen)
 
 	three, err := iterator.Find(func(e interface{}) bool {
 		return e.(int) == 3
@@ -54,8 +55,8 @@ func TestFind(t *testing.T) {
 	assert.Equal(3, three)
 	assert.Nil(err)
 
-	generator = goterator.NewSliceGenerator(elements)
-	iterator = goterator.New(generator)
+	gen = generator.NewSlice(elements)
+	iterator = goterator.New(gen)
 
 	_, err = iterator.Find(func(e interface{}) bool {
 		return e.(int) == 6
@@ -66,8 +67,8 @@ func TestFind(t *testing.T) {
 func TestMin(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, -1, 5}
-	generator := goterator.NewSliceGenerator(elements)
-	iterator := goterator.New(generator)
+	gen := generator.NewSlice(elements)
+	iterator := goterator.New(gen)
 
 	min := iterator.Min(func(a, b interface{}) bool {
 		return a.(int) < b.(int)
@@ -78,8 +79,8 @@ func TestMin(t *testing.T) {
 func TestMax(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 7, 5}
-	generator := goterator.NewSliceGenerator(elements)
-	iterator := goterator.New(generator)
+	gen := generator.NewSlice(elements)
+	iterator := goterator.New(gen)
 
 	max := iterator.Max(func(a, b interface{}) bool {
 		return a.(int) < b.(int)
@@ -90,24 +91,24 @@ func TestMax(t *testing.T) {
 func TestAll(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, -1, 5}
-	generator := goterator.NewSliceGenerator(elements)
-	iterator := goterator.New(generator)
+	gen := generator.NewSlice(elements)
+	iterator := goterator.New(gen)
 
 	all := iterator.All(func(e interface{}) bool {
 		return e.(int) < 6
 	})
 	assert.True(all)
 
-	generator = goterator.NewSliceGenerator(make([]interface{}, 0))
-	iterator = goterator.New(generator)
+	gen = generator.NewSlice(make([]interface{}, 0))
+	iterator = goterator.New(gen)
 
 	all = iterator.All(func(e interface{}) bool {
 		return e.(int) < 6
 	})
 	assert.True(all)
 
-	generator = goterator.NewSliceGenerator(elements)
-	iterator = goterator.New(generator)
+	gen = generator.NewSlice(elements)
+	iterator = goterator.New(gen)
 
 	all = iterator.All(func(e interface{}) bool {
 		return e.(int) > 3
@@ -118,24 +119,24 @@ func TestAll(t *testing.T) {
 func TestAny(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, -1, 5}
-	generator := goterator.NewSliceGenerator(elements)
-	iterator := goterator.New(generator)
+	gen := generator.NewSlice(elements)
+	iterator := goterator.New(gen)
 
 	any := iterator.Any(func(e interface{}) bool {
 		return e.(int) < 0
 	})
 	assert.True(any)
 
-	generator = goterator.NewSliceGenerator(make([]interface{}, 0))
-	iterator = goterator.New(generator)
+	gen = generator.NewSlice(make([]interface{}, 0))
+	iterator = goterator.New(gen)
 
 	any = iterator.Any(func(e interface{}) bool {
 		return e.(int) < 6
 	})
 	assert.False(any)
 
-	generator = goterator.NewSliceGenerator(elements)
-	iterator = goterator.New(generator)
+	gen = generator.NewSlice(elements)
+	iterator = goterator.New(gen)
 
 	any = iterator.Any(func(e interface{}) bool {
 		return e.(int) > 6
@@ -146,8 +147,8 @@ func TestAny(t *testing.T) {
 func TestLast(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 7, 5}
-	generator := goterator.NewSliceGenerator(elements)
-	iterator := goterator.New(generator)
+	gen := generator.NewSlice(elements)
+	iterator := goterator.New(gen)
 
 	last := iterator.Last()
 	assert.Equal(5, last)
@@ -156,15 +157,15 @@ func TestLast(t *testing.T) {
 func TestNth(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 7, 5}
-	generator := goterator.NewSliceGenerator(elements)
-	iterator := goterator.New(generator)
+	gen := generator.NewSlice(elements)
+	iterator := goterator.New(gen)
 
 	nth, err := iterator.Nth(5)
 	assert.Equal(7, nth)
 	assert.Nil(err)
 
-	generator = goterator.NewSliceGenerator(elements)
-	iterator = goterator.New(generator)
+	gen = generator.NewSlice(elements)
+	iterator = goterator.New(gen)
 
 	_, err = iterator.Nth(len(elements))
 	assert.NotNil(err)
@@ -173,14 +174,14 @@ func TestNth(t *testing.T) {
 func TestCount(t *testing.T) {
 	assert := assert.New(t)
 	elements := []interface{}{0, 1, 2, 3, 4, 7, 5}
-	generator := goterator.NewSliceGenerator(elements)
-	iterator := goterator.New(generator)
+	gen := generator.NewSlice(elements)
+	iterator := goterator.New(gen)
 
 	length := iterator.Count()
 	assert.Equal(len(elements), length)
 
-	generator = goterator.NewSliceGenerator(make([]interface{}, 0))
-	iterator = goterator.New(generator)
+	gen = generator.NewSlice(make([]interface{}, 0))
+	iterator = goterator.New(gen)
 
 	length = iterator.Count()
 	assert.Zero(length)
