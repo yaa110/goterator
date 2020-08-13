@@ -74,19 +74,19 @@ func (iter *Iterator) Reduce(initialState interface{}, f ReduceFunc) interface{}
 }
 
 // Find consumes elements and returns the first element that satisfies `f` (returning `true`).
-// Returns an `EOF` error if no element is found.
-func (iter *Iterator) Find(f PredicateFunc) (interface{}, error) {
+// Returns `nil, false` if no element is found.
+func (iter *Iterator) Find(f PredicateFunc) (interface{}, bool) {
 	var elem interface{}
-	err := End()
+	ok := false
 	iter.iter(func(element interface{}) bool {
 		if f(element) {
 			elem = element
-			err = nil
+			ok = true
 			return false
 		}
 		return true
 	})
-	return elem, err
+	return elem, ok
 }
 
 // Min consumes elements and returns the minimum element.
@@ -156,21 +156,21 @@ func (iter *Iterator) Last() interface{} {
 }
 
 // Nth consumes elements and returns the `n`th element. Indexing starts from `0`.
-// Returns an `EOF` error if the length of iterator is less than `n`.
-func (iter *Iterator) Nth(n int) (interface{}, error) {
+// Returns an nil, false` if the length of iterator is less than `n`.
+func (iter *Iterator) Nth(n int) (interface{}, bool) {
 	var nth interface{}
-	err := End()
+	ok := false
 	index := 0
 	iter.iter(func(element interface{}) bool {
 		if index == n {
 			nth = element
-			err = nil
+			ok = true
 			return false
 		}
 		index++
 		return true
 	})
-	return nth, err
+	return nth, ok
 }
 
 // Count consumes elements and returns the length of elements.

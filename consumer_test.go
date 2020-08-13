@@ -49,19 +49,19 @@ func TestFind(t *testing.T) {
 	gen := generator.NewSlice(elements)
 	iterator := goterator.New(gen)
 
-	three, err := iterator.Find(func(e interface{}) bool {
+	three, ok := iterator.Find(func(e interface{}) bool {
 		return e.(int) == 3
 	})
 	assert.Equal(3, three)
-	assert.Nil(err)
+	assert.True(ok)
 
 	gen = generator.NewSlice(elements)
 	iterator = goterator.New(gen)
 
-	_, err = iterator.Find(func(e interface{}) bool {
+	_, ok = iterator.Find(func(e interface{}) bool {
 		return e.(int) == 6
 	})
-	assert.NotNil(err)
+	assert.False(ok)
 }
 
 func TestMin(t *testing.T) {
@@ -160,15 +160,15 @@ func TestNth(t *testing.T) {
 	gen := generator.NewSlice(elements)
 	iterator := goterator.New(gen)
 
-	nth, err := iterator.Nth(5)
+	nth, ok := iterator.Nth(5)
 	assert.Equal(7, nth)
-	assert.Nil(err)
+	assert.True(ok)
 
 	gen = generator.NewSlice(elements)
 	iterator = goterator.New(gen)
 
-	_, err = iterator.Nth(len(elements))
-	assert.NotNil(err)
+	_, ok = iterator.Nth(len(elements))
+	assert.False(ok)
 }
 
 func TestCount(t *testing.T) {
