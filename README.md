@@ -49,7 +49,7 @@ func (g *TestGenerator) Next() bool {
     if g.i == len(g.words) {
         return false
     }
-    g.value := g.words[g.i]
+    g.value = g.words[g.i]
     g.i++
     return true
 }
