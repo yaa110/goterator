@@ -1,19 +1,19 @@
 package generator
 
-// Slice implements `Generator` interface for slices.
-type Slice struct {
+// slice implements `Generator` interface for slices.
+type slice struct {
 	elements []interface{}
 	value    interface{}
 }
 
-// NewSlice creates a new instance of `Slice` for `elements`.
-func NewSlice(elements []interface{}) *Slice {
-	return &Slice{elements, nil}
+// Newslice creates a new instance of `Generator` for slices.
+func NewSlice(elements []interface{}) Generator {
+	return &slice{elements, nil}
 }
 
 // Next prepares a new element, and returns `false` at the end of iteration.
 // This method consumes (shifts) the elements from the slice.
-func (g *Slice) Next() bool {
+func (g *slice) Next() bool {
 	if len(g.elements) == 0 {
 		return false
 	}
@@ -22,6 +22,6 @@ func (g *Slice) Next() bool {
 }
 
 // Value returns the value of prepared element.
-func (g *Slice) Value() interface{} {
+func (g *slice) Value() interface{} {
 	return g.value
 }

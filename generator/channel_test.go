@@ -10,18 +10,18 @@ import (
 func TestChannelGenerator(t *testing.T) {
 	assert := assert.New(t)
 	length := 6
-	channel := make(chan interface{}, length)
+	chn := make(chan interface{}, length)
 
-	generator := generator.NewChannel(channel)
+	generator := generator.NewChannel(chn)
 
 	for i := 0; i < length; i++ {
-		channel <- i
+		chn <- i
 		ok := generator.Next()
 		assert.True(ok)
 		assert.Equal(i, generator.Value())
 	}
 
-	close(channel)
+	close(chn)
 
 	ok := generator.Next()
 	assert.False(ok)
